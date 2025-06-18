@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 
 function App() {
@@ -7,12 +7,33 @@ function App() {
   const [number, setNumber] = useState(false);
   const [character, setCharacter] = useState(false);
 
+  const passwordText = useRef(null);
+
+  const generatePassword = () => {
+    let str = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm";
+    let password = ""
+
+    if(number) str += "1234567890";
+    if(character) str += "!#$%&()*+,-./:;<=>?@[]^_{|}~";
+
+    for(let i = 0 ; i < length ; i++){
+      let char = Math.floor(Math.random() * str.length) + 1;
+      password += str.charAt(char);
+    }
+    setPassword(password);
+  }
+
+  useEffect(() => {
+    generatePassword();
+  }, [length, number, character]);
+
   return (
     <div className="bg-gray-700 w-full h-screen flex justify-center items-center">
 
       <div className="w-2/3 max-w-6xl min-w-[350px] flex flex-col justify-center bg-gray-300 h-fit p-4 rounded-2xl gap-2.5">
 
-        <h1 className="text-center text-4xl font-bold">Password Generator</h1>
+        <h1 className="text-center my-4 text-4xl font-bold">Password Generator</h1>
+
 
         <div className="flex justify-center w-full">
 
@@ -24,9 +45,19 @@ function App() {
               placeholder="Password"
               value={password}
               readOnly
+              ref={passwordText}
             />
 
-            <button className="flex-[1] p-2 bg-blue-500 text-white rounded-r-lg min-w-[80px]  hover:opacity-80 transition cursor-pointer">
+            <button 
+              className="flex-[1] p-2 bg-blue-500 text-white rounded-r-lg min-w-[80px]  hover:opacity-80 transition cursor-pointer"
+              onClick={
+                () => {
+                  passwordText.current?.select();
+                  passwordText.current?.select();
+                  navigator.clipboard.writeText(password)
+                }
+              }
+            >
               Copy
             </button>
 
