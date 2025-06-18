@@ -53,7 +53,6 @@ function App() {
               onClick={
                 () => {
                   passwordText.current?.select();
-                  passwordText.current?.select();
                   navigator.clipboard.writeText(password)
                 }
               }
