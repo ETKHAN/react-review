@@ -4,7 +4,7 @@ import { removeTodo } from "../feature/todo/todoSlice"
 
 function Todos(){
 
-  const todos = useSelector(state => state.todos);
+  const todos = useSelector(state => state.todo.todos);
   const dispatch = useDispatch()
 
   return (
